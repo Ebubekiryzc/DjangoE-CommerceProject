@@ -44,7 +44,7 @@ function RegisterScreen({ location, history }) {
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="name">
+        <Form.Group className="my-3" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             required
@@ -54,7 +54,7 @@ function RegisterScreen({ location, history }) {
             onChange={(e) => setName(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId="email">
+        <Form.Group className="my-3" controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             required
@@ -64,7 +64,7 @@ function RegisterScreen({ location, history }) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId="password">
+        <Form.Group className="my-3" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             required
@@ -74,7 +74,7 @@ function RegisterScreen({ location, history }) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId="passwordConfirm">
+        <Form.Group className="my-3" controlId="passwordConfirm">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             required
@@ -86,13 +86,15 @@ function RegisterScreen({ location, history }) {
         </Form.Group>
 
         <Button type="submit" variant="primary" className="my-3">
-          Submit
+          Register
         </Button>
       </Form>
       <Row>
         <Col>
           Already Signed Up?
-          <Link to={redirect ? `/login?redirect=${redirect}` : `/login`}>
+          <Link
+            to={redirect ? `/login?redirect=${redirect}` : `/login`}
+            className="mx-2">
             Sign In
           </Link>
         </Col>
