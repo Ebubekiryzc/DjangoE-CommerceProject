@@ -7,5 +7,6 @@ urlpatterns = [
     path("login/", helpers.CustomTokenObtainPairView.as_view(),
          name="token_obtain_pair"),
     path("profile/", views.get_user_profile, name='user-profile'),
+    path("profile/update/", views.update_profile, name='update-user-profile'),
     path("register/", views.register_user, name='register'),
 ]
