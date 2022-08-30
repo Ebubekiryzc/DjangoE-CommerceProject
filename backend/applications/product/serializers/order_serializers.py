@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from applications.product.models import Order, OrderItem, ShippingAddress
+from applications.account.serializers import UserSerializer
 
 
 class ShippingAddressSerializer(serializers.ModelSerializer):
@@ -38,5 +39,5 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_user(self, obj):
         user = obj.user
-        serializer = OrderItemSerializer(user, many=False)
+        serializer = UserSerializer(user, many=False)
         return serializer.data
