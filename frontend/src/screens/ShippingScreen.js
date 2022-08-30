@@ -9,6 +9,13 @@ function ShippingScreen({ history }) {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  if (!userInfo) {
+    history.push("/login");
+  }
+
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState(shippingAddress.address);
@@ -67,7 +74,7 @@ function ShippingScreen({ history }) {
             onChange={(e) => setCountry(e.target.value)}
           />
         </Form.Group>
-        <Button type="button" variant="primary">
+        <Button type="submit" variant="primary">
           Continue
         </Button>
       </Form>
