@@ -9,7 +9,8 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/routes', views.get_routes, name="routes"),
-    path("api/products/", include("applications.product.urls")),
+    path("api/products/", include("applications.product.urls.product_urls")),
+    path("api/orders/", include("applications.product.urls.order_urls")),
     path("api/users/", include("applications.account.urls"))
 ]
 
