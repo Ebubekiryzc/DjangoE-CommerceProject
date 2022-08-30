@@ -22,10 +22,11 @@ function PlaceOrderScreen({ history }) {
 
   cart.taxPrice = Number(0.082 * cart.itemsPrice).toFixed(2);
 
-  cart.totalPrice =
+  cart.totalPrice = (
     Number(cart.itemsPrice) +
     Number(cart.shippingPrice) +
-    Number(cart.taxPrice);
+    Number(cart.taxPrice)
+  ).toFixed(2);
 
   if (!cart.paymentMethod) {
     history.push("/payment");
@@ -85,7 +86,7 @@ function PlaceOrderScreen({ history }) {
               ) : (
                 <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (
-                    <ListGroup.Item>
+                    <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
                           <Image
