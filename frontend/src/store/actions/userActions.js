@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CART_CLEAR_ITEMS } from "../constants/cartConstants";
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -60,6 +61,7 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: CART_CLEAR_ITEMS });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -131,7 +133,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       payload: data,
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: USER_DETAILS_FAIL,
       payload:
