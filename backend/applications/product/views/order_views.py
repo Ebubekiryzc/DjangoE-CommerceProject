@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from applications.product.models import Product, Order, OrderItem
@@ -9,7 +10,7 @@ from applications.product.serializers.order_serializers import OrderSerializer
 
 
 @api_view(["POST"])
-@permission_classes(["IsAuthenticated"])
+@permission_classes([IsAuthenticated])
 def add_order_items(request):
     user = request.user
     data = request.data
@@ -52,5 +53,5 @@ def add_order_items(request):
 
             product.countInStock -= item.quantity
             product.save()
-    serializer = OrderSerializer(order, many=False)
-    return Response(serializer.data)
+        serializer = OrderSerializer(order, many=False)
+        return Response(serializer.data)
