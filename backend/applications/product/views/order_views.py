@@ -8,6 +8,8 @@ from applications.product.serializers.product_serializers import ProductSerializ
 from applications.product.models import ShippingAddress
 from applications.product.serializers.order_serializers import OrderSerializer
 
+from datetime import datetime
+
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
@@ -71,3 +73,15 @@ def get_order_by_id(request, pk):
                             status=status.HTTP_400_BAD_REQUEST)
     except:
         return Response({"detail": "Order does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_order_to_paid(request, pk):
+    order = Order.objects.get(_id=pk)
+
+    order.isPaid = True
+    order.paidAt = datetime.now()
+    order.save()
+
+    return Response("Order was paid")
