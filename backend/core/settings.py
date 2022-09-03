@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
 
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -144,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = str(os.environ.get("TIME_ZONE"))
 
 USE_I18N = True
 
@@ -169,3 +171,21 @@ MEDIA_ROOT = 'static/images'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# EMAIL CONFIG
+
+EMAIL_BACKEND = str(os.environ.get("EMAIL_BACKEND"))
+EMAIL_HOST = str(os.environ.get("EMAIL_HOST"))
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_USE_TLS = str(os.environ.get("EMAIL_USE_TLS")) == "True"
+EMAIL_HOST_USER = str(os.environ.get("EMAIL_HOST_USER"))
+EMAIL_HOST_PASSWORD = str(os.environ.get("EMAIL_HOST_PASSWORD"))
+
+# STRIPE CONFIG
+
+STRIPE_SECRET_KEY = str(os.environ.get("STRIPE_SECRET_KEY"))
+STRIPE_WEB_HOOK_SECRET_KEY = str(os.environ.get("STRIPE_WEB_HOOK_SECRET_KEY"))
+
+# SITE CONFIG
+
+SITE_URL = str(os.environ.get("SITE_URL"))
