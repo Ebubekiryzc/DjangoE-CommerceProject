@@ -4,6 +4,7 @@ from . import helpers
 
 urlpatterns = [
     path("", views.get_users, name='users'),
+    path("delete/<str:pk>/", views.delete_user, name='delete-user'),
     path("login/", helpers.CustomTokenObtainPairView.as_view(),
          name="token_obtain_pair"),
     path("profile/", views.get_user_profile, name='user-profile'),
