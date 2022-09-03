@@ -12,7 +12,7 @@ function PaymentScreen({ history }) {
   if (!userInfo) {
     history.push("/login");
   }
-  
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
@@ -39,7 +39,7 @@ function PaymentScreen({ history }) {
           <Col>
             <Form.Check
               type="radio"
-              label="Stripe or Credit Card"
+              label="Pay with Stripe on orders tab"
               id="stripe"
               name="paymentMethod"
               checked
