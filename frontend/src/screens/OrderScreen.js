@@ -4,15 +4,20 @@ import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails } from "../store/actions/orderActions";
+import { getOrderDetails, payOrder } from "../store/actions/orderActions";
+import { ORDER_PAY_RESET } from "../store/constants/orderConstants";
 
-function OrderScreen({ match }) {
+function OrderScreen({ history, match }) {
   const orderId = match.params.id;
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, error, loading } = orderDetails;
 
-  console.log(orderDetails);
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const dispatch = useDispatch();
 
@@ -23,10 +28,20 @@ function OrderScreen({ match }) {
   }
 
   useEffect(() => {
-    if (!order || order._id !== Number(orderId)) {
+    if (!userInfo) {
+      history.push("/login");
+    }
+
+    if (!order || order._id !== Number(orderId) || successPay) {
+      dispatch({ type: ORDER_PAY_RESET });
+
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, order, orderId]);
+  }, [dispatch, order, orderId, successPay]);
+
+  const successPaymentHandler = () => {
+    dispatch(payOrder(orderId));
+  };
 
   return loading ? (
     <Loader />
@@ -149,6 +164,22 @@ function OrderScreen({ match }) {
               </ListGroup.Item>
             </ListGroup>
           </Card>
+          {!order.isPaid && (
+            <div className="mt-3">
+              {loadingPay ? (
+                <Loader />
+              ) : (
+                <Button
+                  variant="success"
+                  type="button"
+                  className="btn-block"
+                  onClick={successPaymentHandler}>
+                  <i className="fas fa-shopping-cart me-3"></i>
+                  Pay with Stripe
+                </Button>
+              )}
+            </div>
+          )}
         </Col>
       </Row>
     </div>

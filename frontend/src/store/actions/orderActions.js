@@ -90,7 +90,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
+export const payOrder = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_PAY_REQUEST,
@@ -107,7 +107,15 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/orders/${id}/pay`, config);
+    console.log(userInfo.token);
+
+    const { data } = await axios.post(`/api/orders/${id}/pay/`, {}, config);
+
+    const changeScreen = async () => {
+      window.location = data;
+    };
+
+    await changeScreen();
 
     dispatch({
       type: ORDER_PAY_SUCCESS,
