@@ -4,8 +4,15 @@ import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails, payOrder } from "../store/actions/orderActions";
-import { ORDER_PAY_RESET } from "../store/constants/orderConstants";
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from "../store/actions/orderActions";
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
+} from "../store/constants/orderConstants";
 
 function OrderScreen({ history, match }) {
   const orderId = match.params.id;
@@ -15,6 +22,9 @@ function OrderScreen({ history, match }) {
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,15 +42,25 @@ function OrderScreen({ history, match }) {
       history.push("/login");
     }
 
-    if (!order || order._id !== Number(orderId) || successPay) {
+    if (
+      !order ||
+      order._id !== Number(orderId) ||
+      successPay ||
+      successDeliver
+    ) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
 
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, order, orderId, successPay, successDeliver]);
 
   const successPaymentHandler = () => {
     dispatch(payOrder(orderId));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(orderId));
   };
 
   return loading ? (
@@ -179,6 +199,24 @@ function OrderScreen({ history, match }) {
                 </Button>
               )}
             </div>
+          )}
+          {loadingDeliver ? (
+            <Loader />
+          ) : (
+            userInfo &&
+            userInfo.isAdmin &&
+            order.isPaid &&
+            !order.isDelivered && (
+              <div className="d-flex justify-content-center">
+                <Button
+                  type="button"
+                  className="btn btn-block mt-3"
+                  variant="success"
+                  onClick={deliverHandler}>
+                  Mark As Delivered
+                </Button>
+              </div>
+            )
           )}
         </Col>
       </Row>
