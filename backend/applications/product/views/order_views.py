@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from applications.product.models import Product, Order, OrderItem
@@ -169,3 +169,11 @@ def stripe_webhook_view(request):
         )
 
     return HttpResponse(status=200)
+
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def get_orders(request):
+    orders = Order.objects.all()
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
