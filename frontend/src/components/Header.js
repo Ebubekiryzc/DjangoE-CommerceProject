@@ -26,7 +26,7 @@ function Header() {
           <Navbar.Collapse id="navbarScroll">
             <SearchBox />
             <Nav
-              className="me-auto my-2 my-lg-0"
+              className="ms-auto my-2 my-lg-0"
               style={{ maxHeight: "100px" }}
               navbarScroll>
               <LinkContainer to="/cart">
@@ -36,7 +36,7 @@ function Header() {
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
+                <NavDropdown title={<span><i className="fas fa-user me-1"></i> {userInfo.name}</span>} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
