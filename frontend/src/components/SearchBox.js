@@ -9,14 +9,14 @@ function SearchBox() {
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword) {
-      history.push(`/?keyword=${keyword}`);
+      history.push(`/?keyword=${keyword}&page=1`);
     } else {
       history.push(history.location.pathname);
     }
   };
 
   return (
-    <Form onSubmit={submitHandler} inline>
+    <Form onSubmit={submitHandler}>
       <InputGroup>
         <Form.Control
           type="text"
